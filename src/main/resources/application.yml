@@ -1,3 +1,14 @@
 spring:
   application:
     name: kotlin-spring-practice
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/kopring?useSSL=false
+    username: root
+    password: 1234
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
