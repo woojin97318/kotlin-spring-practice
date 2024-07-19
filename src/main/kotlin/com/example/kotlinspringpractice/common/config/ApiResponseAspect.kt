@@ -1,18 +1,18 @@
 package com.example.kotlinspringpractice.common.config
 
-import com.example.kotlinspringpractice.dto.response.ApiResponse
+import com.example.kotlinspringpractice.common.util.ResponseUtil
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Pointcut
-import org.springframework.context.annotation.Configuration
 import org.springframework.http.ResponseEntity
+import org.springframework.stereotype.Component
 
 /**
  * ApiResponseWrapper 애노테이션이 붙은 메서드의 응답을 자동으로 ApiResponse로 래핑하는 AOP 설정 클래스.
  */
 @Aspect
-@Configuration
+@Component
 class ApiResponseAspect {
 
     /**
@@ -32,13 +32,7 @@ class ApiResponseAspect {
         val result = joinPoint.proceed()
         return when (result) {
             is ResponseEntity<*> -> result // 이미 ResponseEntity인 경우 그대로 반환
-            else -> ResponseEntity.ok(
-                ApiResponse(
-                    status = 200,
-                    message = "Success",
-                    data = result
-                )
-            )
+            else -> ResponseUtil.successResponse(result)
         }
     }
 }

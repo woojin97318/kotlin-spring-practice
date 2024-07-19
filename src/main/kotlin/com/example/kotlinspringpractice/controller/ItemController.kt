@@ -26,13 +26,13 @@ class ItemController(
     /**
      * ID로 Item 조회
      */
-//    @ApiResponseWrapper
+    @ApiResponseWrapper
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: Long): ResponseEntity<ApiResponse<Item>> =
-        itemService.findById(id)?.let {
-            ResponseUtil.successResponse(it)
-        } ?: ResponseUtil.notFoundResponse()
-//    fun findById(@PathVariable id: Long): Item? = itemService.findById(id)
+    fun findById(@PathVariable id: Long): Item? = itemService.findById(id)
+//    fun findById(@PathVariable id: Long): ResponseEntity<ApiResponse<Item>> =
+//        itemService.findById(id)?.let {
+//            ResponseUtil.successResponse(it)
+//        } ?: ResponseUtil.notFoundResponse()
 
     /**
      * Item 저장
