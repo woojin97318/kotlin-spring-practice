@@ -19,9 +19,9 @@ class ItemController(
      */
 //    @ApiResponseWrapper
     @GetMapping
-//    fun findAll(): List<Item>? = itemService.findAll()
-    fun findAll(): ResponseEntity<ApiResponse<List<Item>>> =
-        ResponseUtil.successResponse(itemService.findAll())
+    fun findAll(): List<Item>? = itemService.findAll()
+//    fun findAll(): ResponseEntity<ApiResponse<List<Item>>> =
+//        ResponseUtil.successResponse(itemService.findAll())
 
     /**
      * ID로 Item 조회

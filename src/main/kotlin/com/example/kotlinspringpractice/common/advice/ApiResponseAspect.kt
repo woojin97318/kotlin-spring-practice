@@ -1,6 +1,7 @@
-package com.example.kotlinspringpractice.common.config
+package com.example.kotlinspringpractice.common.advice
 
 import com.example.kotlinspringpractice.common.util.ResponseUtil
+import com.example.kotlinspringpractice.dto.response.ApiResponse
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
@@ -31,8 +32,14 @@ class ApiResponseAspect {
     fun wrapApiResponse(joinPoint: ProceedingJoinPoint): Any {
         val result = joinPoint.proceed()
         return when (result) {
-            is ResponseEntity<*> -> result // 이미 ResponseEntity인 경우 그대로 반환
-            else -> ResponseUtil.successResponse(result)
+            is ResponseEntity<*> -> result
+            else -> ResponseEntity.ok(
+                ApiResponse(
+                    status = 200,
+                    message = "Success",
+                    data = result
+                )
+            )
         }
     }
 }
