@@ -1,47 +1,44 @@
 package com.example.kotlinspringpractice.service
 
-import com.example.kotlinspringpractice.domain.Item
-import com.example.kotlinspringpractice.dto.ItemSaveDto
-import com.example.kotlinspringpractice.repository.ItemRepository
+import com.example.kotlinspringpractice.global.exception.CustomException
+import com.example.kotlinspringpractice.global.exception.ErrorMessage
+import com.example.kotlinspringpractice.domain.item.Item
+import com.example.kotlinspringpractice.web.dto.ItemSaveDto
+import com.example.kotlinspringpractice.domain.item.ItemRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class ItemService (
+class ItemService(
     private val itemRepository: ItemRepository
 ) {
     fun findAll(): List<Item> =
         itemRepository.findAll()
 
-    fun findById(id: Long): Item? =
-        itemRepository.findById(id).orElse(null)
+    fun findById(id: Long): Item =
+        itemRepository.findById(id).orElseThrow { CustomException(ErrorMessage.NOT_FOUND) }
 
     @Transactional
     fun save(itemSaveDto: ItemSaveDto): Item {
-        val newItem = itemSaveDto.toEntity()
+        val newItem: Item = itemSaveDto.toEntity()
         return itemRepository.save(newItem)
     }
 
     @Transactional
-    fun update(id: Long, updatedItem: Item): Item? {
-        val existingItem = itemRepository.findById(id).orElse(null)
+    fun update(id: Long, itemSaveDto: ItemSaveDto): Item {
+        val existingItem = itemRepository.findById(id).orElseThrow { CustomException(ErrorMessage.NOT_FOUND) }
+        existingItem.updateFromDto(itemSaveDto)
 
-        return if (existingItem != null) {
-            existingItem.name = updatedItem.name
-            existingItem.description = updatedItem.description
-            itemRepository.save(existingItem)
-        } else {
-            null
-        }
+        // 더티 체킹으로 인해 Entity의 변경사항이 DB에 반영되지만 명확성을 위해 save() 호출
+        return itemRepository.save(existingItem)
     }
 
     @Transactional
-    fun deleteById(id: Long): Boolean {
-        return if (itemRepository.existsById(id)) {
+    fun deleteById(id: Long)  {
+        if (itemRepository.existsById(id)) {
             itemRepository.deleteById(id)
-            true
         } else {
-            false
+            throw CustomException(ErrorMessage.NOT_FOUND)
         }
     }
 }

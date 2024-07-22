@@ -1,14 +1,17 @@
-package com.example.kotlinspringpractice.common.exception
+package com.example.kotlinspringpractice.global.exception
 
 import com.fasterxml.jackson.annotation.JsonFormat
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-enum class ErrorMessage (val status: Int, val code: String, val message: String) {
-
+enum class ErrorMessage(
+    val status: Int,
+    val code: String,
+    val message: String
+) {
     /** COMMON ERRORS */
     INVALID_REQUEST(400, "ERR001", "잘못된 요청 형식입니다."),
     UNAUTHORIZED(401, "ERR002", "인가되지 않은 접근입니다."),
-    FORBIDDEN(403, "ERR003", "금지된 작업입니다."),
+    FORBIDDEN(403, "ERR003", "접근 권한이 없습니다."),
     NOT_FOUND(404, "ERR004", "리소스를 찾을 수 없습니다."),
     METHOD_NOT_ALLOWED(405, "ERR005", "허용되지 않은 메소드입니다."),
     INTERNAL_SERVER_ERROR(500, "ERR006", "내부 서버 오류입니다."),
@@ -17,11 +20,12 @@ enum class ErrorMessage (val status: Int, val code: String, val message: String)
     GATEWAY_TIMEOUT(504, "ERR009", "게이트웨이 시간 초과입니다."),
 
     /** VALIDATION ERRORS */
-    INVALID_INPUT(400, "VAL001", "잘못된 입력입니다."),
-    MISSING_REQUIRED_FIELD(400, "VAL002", "필수 필드가 누락되었습니다."),
-    INVALID_EMAIL(400, "VAL003", "유효하지 않은 이메일 형식입니다."),
-    PASSWORD_TOO_WEAK(400, "VAL004", "비밀번호가 너무 약합니다."),
-    USERNAME_TAKEN(400, "VAL005", "사용자 이름이 이미 사용 중입니다."),
+    INVALID_INPUT_VALID(400, "VAL001", "잘못된 입력입니다."),
+    INVALID_INPUT_VALIDATED(400, "VAL001", "잘못된 입력입니다."),
+    MISSING_REQUIRED_FIELD(400, "VAL003", "필수 필드가 누락되었습니다."),
+    INVALID_EMAIL(400, "VAL004", "유효하지 않은 이메일 형식입니다."),
+    PASSWORD_TOO_WEAK(400, "VAL005", "비밀번호가 너무 약합니다."),
+    USERNAME_TAKEN(400, "VAL006", "사용자 이름이 이미 사용 중입니다."),
 
     /** AUTHENTICATION ERRORS */
     AUTHENTICATION_FAILED(401, "AUTH001", "인증에 실패했습니다."),

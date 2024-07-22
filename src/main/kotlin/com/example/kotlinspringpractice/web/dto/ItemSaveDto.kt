@@ -1,6 +1,6 @@
-package com.example.kotlinspringpractice.dto
+package com.example.kotlinspringpractice.web.dto
 
-import com.example.kotlinspringpractice.domain.Item
+import com.example.kotlinspringpractice.domain.item.Item
 
 data class ItemSaveDto(
     val name: String,

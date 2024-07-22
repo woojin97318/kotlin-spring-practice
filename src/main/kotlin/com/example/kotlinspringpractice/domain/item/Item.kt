@@ -1,5 +1,6 @@
-package com.example.kotlinspringpractice.domain
+package com.example.kotlinspringpractice.domain.item
 
+import com.example.kotlinspringpractice.web.dto.ItemSaveDto
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
@@ -9,9 +10,7 @@ import jakarta.persistence.Id
 class Item(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
-
     var name: String,
-
     var description: String
 ) {
     override fun equals(other: Any?): Boolean {
@@ -29,5 +28,10 @@ class Item(
 
     override fun toString(): String {
         return "Item(id=$id, name='$name', description='$description')"
+    }
+
+    fun updateFromDto(dto: ItemSaveDto) {
+        this.name = dto.name
+        this.description = dto.description
     }
 }
