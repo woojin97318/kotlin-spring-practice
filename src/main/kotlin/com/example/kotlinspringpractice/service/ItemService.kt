@@ -26,8 +26,8 @@ class ItemService(
 
     @Transactional
     fun update(id: Long, itemSaveDto: ItemSaveDto): Item {
-        val existingItem = itemRepository.findById(id).orElseThrow { CustomException(ErrorMessage.NOT_FOUND) }
-        existingItem.updateFromDto(itemSaveDto)
+        val existingItem: Item = itemRepository.findById(id).orElseThrow { CustomException(ErrorMessage.NOT_FOUND) }
+        existingItem.update(itemSaveDto)
 
         // 더티 체킹으로 인해 Entity의 변경사항이 DB에 반영되지만 명확성을 위해 save() 호출
         return itemRepository.save(existingItem)

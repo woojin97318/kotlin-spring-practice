@@ -37,7 +37,27 @@ class CommonControllerAdvice : ResponseBodyAdvice<Any> {
         request: ServerHttpRequest,
         response: ServerHttpResponse
     ): Any? {
-        return if (body is ErrorResponse) body
-        else CommonResponse(status = 200, message = "success", data = body)
+        val requestDetails = "${request.method} ${request.uri.path}"
+
+        return when (body) {
+            is ErrorResponse -> body
+            else -> CommonResponse(
+                requestDetails = requestDetails,
+                status = 200,
+                message = "success",
+                data = body
+            )
+        }
+
+//        return if (body is ErrorResponse) {
+//            val errorResponses = body as ErrorResponse
+//        } else {
+//            CommonResponse(
+//                requestDetails = requestDetails,
+//                status = 200,
+//                message = "success",
+//                data = body
+//            )
+//        }
     }
 }

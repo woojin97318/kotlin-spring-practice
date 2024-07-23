@@ -10,28 +10,16 @@ import jakarta.persistence.Id
 class Item(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
-    var name: String,
-    var description: String
+    var name: String?,
+    var description: String?
 ) {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is Item) return false
-
-        if (id != null && id == other.id) return true
-
-        return false
-    }
-
-    override fun hashCode(): Int {
-        return id?.hashCode() ?: 0
-    }
-
-    override fun toString(): String {
-        return "Item(id=$id, name='$name', description='$description')"
-    }
-
-    fun updateFromDto(dto: ItemSaveDto) {
+    fun update(dto: ItemSaveDto) {
+        // 필드 값이 null인 경우에도 실행 -> nullable인 경우
         this.name = dto.name
         this.description = dto.description
+
+        // 필드 값이 null이 아닌 경우에만 실행 -> NOT NULL인 경우 (예외 발생 안함)
+//        dto.name?.let { this.name = it }
+//        dto.description?.let { this.description = it }
     }
 }
