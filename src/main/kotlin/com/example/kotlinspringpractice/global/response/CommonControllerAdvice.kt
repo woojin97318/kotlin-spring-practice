@@ -1,10 +1,11 @@
 package com.example.kotlinspringpractice.global.response
 
 import com.example.kotlinspringpractice.global.exception.ErrorResponse
+import com.example.kotlinspringpractice.global.exception.GlobalExceptionAdvice
 import org.springframework.core.MethodParameter
-import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.converter.HttpMessageConverter
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.http.server.ServerHttpRequest
 import org.springframework.http.server.ServerHttpResponse
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -12,8 +13,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
 
 /**
  * 전역적으로 모든 컨트롤러에서 반환되는 응답을 가로채서 처리
+ *
+ * basePackages : 어노테이션이 적용될 패키지 지정
+ * basePackageClasses : 특정 클래스의 패키지 지정
  */
-@RestControllerAdvice
+@RestControllerAdvice(
+    basePackages = ["com.example.kotlinspringpractice.web.controller"],
+    basePackageClasses = [GlobalExceptionAdvice::class]
+)
 class CommonControllerAdvice : ResponseBodyAdvice<Any> {
 
     /**
@@ -24,7 +31,8 @@ class CommonControllerAdvice : ResponseBodyAdvice<Any> {
     override fun supports(
         returnType: MethodParameter,
         converterType: Class<out HttpMessageConverter<*>>
-    ): Boolean = true
+    ): Boolean =
+        MappingJackson2HttpMessageConverter::class.java.isAssignableFrom(converterType)
 
     /**
      * 컨트롤러가 반환한 응답 본문을 실제로 가로채서 처리
@@ -37,7 +45,7 @@ class CommonControllerAdvice : ResponseBodyAdvice<Any> {
         request: ServerHttpRequest,
         response: ServerHttpResponse
     ): Any? {
-        val requestDetails = "${request.method} ${request.uri.path}"
+        val requestDetails = "[${request.method}] ${request.uri.path}"
 
         return when (body) {
             is ErrorResponse -> body

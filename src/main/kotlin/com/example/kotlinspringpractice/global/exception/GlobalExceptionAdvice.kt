@@ -20,7 +20,7 @@ class GlobalExceptionAdvice {
         customMessage: String? = null
     ): ErrorResponse {
         return ErrorResponse(
-            requestDetails = "${request.method} ${request.requestURI}",
+            requestDetails = "[${request.method}] ${request.requestURI}",
             status = errorMessage.status,
             code = errorMessage.code,
             message = customMessage ?: errorMessage.message

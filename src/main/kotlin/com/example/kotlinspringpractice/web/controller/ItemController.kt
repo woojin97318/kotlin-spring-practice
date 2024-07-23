@@ -44,4 +44,7 @@ class ItemController(
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long): Unit =
         itemService.deleteById(id)
+
+    @GetMapping("/test")
+    fun test() = "test"
 }
