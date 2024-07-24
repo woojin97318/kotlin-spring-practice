@@ -1,9 +1,9 @@
 plugins {
 	id("org.springframework.boot") version "3.3.1"
 	id("io.spring.dependency-management") version "1.1.5"
-	kotlin("plugin.jpa") version "1.9.24"
-	kotlin("jvm") version "1.9.24"
-	kotlin("plugin.spring") version "1.9.24"
+	kotlin("plugin.jpa") version "2.0.0"
+	kotlin("jvm") version "2.0.0"
+	kotlin("plugin.spring") version "2.0.0"
 	kotlin("plugin.allopen") version "2.0.0"
 	kotlin("plugin.noarg") version "2.0.0"
 }
@@ -34,6 +34,7 @@ repositories {
 }
 
 dependencies {
+	implementation("io.github.oshai:kotlin-logging-jvm:5.1.4")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-aop")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")

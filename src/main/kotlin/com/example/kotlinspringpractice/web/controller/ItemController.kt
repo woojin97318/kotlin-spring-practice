@@ -46,5 +46,5 @@ class ItemController(
         itemService.deleteById(id)
 
     @GetMapping("/test")
-    fun test() = "test"
+    fun test(@RequestParam name: String) = "test"
 }
