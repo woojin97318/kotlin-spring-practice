@@ -34,7 +34,7 @@ repositories {
 }
 
 dependencies {
-	implementation("io.github.oshai:kotlin-logging-jvm:5.1.4")
+	implementation("io.github.oshai:kotlin-logging-jvm:7.0.0")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-aop")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")

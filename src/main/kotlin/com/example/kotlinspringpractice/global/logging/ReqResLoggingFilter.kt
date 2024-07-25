@@ -4,12 +4,10 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.slf4j.MDC
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import org.springframework.web.util.ContentCachingRequestWrapper
 import org.springframework.web.util.ContentCachingResponseWrapper
-import java.util.UUID
 
 private val log = KotlinLogging.logger {}
 
@@ -20,10 +18,6 @@ private val log = KotlinLogging.logger {}
  */
 @Component
 class ReqResLoggingFilter : OncePerRequestFilter() {
-
-    companion object {
-        const val REQUEST_ID = "request_id"
-    }
 
     /**
      * 요청과 응답을 필터링하고 로깅
@@ -36,9 +30,6 @@ class ReqResLoggingFilter : OncePerRequestFilter() {
         // 요청과 응답을 캐싱하여 나중에 본문을 읽을 수 있도록 함
         val cachingRequestWrapper = ContentCachingRequestWrapper(request)
         val cachingResponseWrapper = ContentCachingResponseWrapper(response)
-
-        val requestId = UUID.randomUUID().toString().substring(0, 8)
-        MDC.put(REQUEST_ID, requestId)
 
         val startTime = System.currentTimeMillis() // 요청 시작 시간 기록
 
@@ -60,8 +51,6 @@ class ReqResLoggingFilter : OncePerRequestFilter() {
             cachingResponseWrapper.copyBodyToResponse()
         } catch (e: Exception) {
             log.error(e) { "[${this::class.simpleName}] Logging 실패: ${e.message}" }
-        } finally {
-            MDC.remove(REQUEST_ID)
         }
     }
 }

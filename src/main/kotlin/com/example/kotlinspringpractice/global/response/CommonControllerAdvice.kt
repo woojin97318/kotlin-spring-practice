@@ -56,16 +56,5 @@ class CommonControllerAdvice : ResponseBodyAdvice<Any> {
                 data = body
             )
         }
-
-//        return if (body is ErrorResponse) {
-//            val errorResponses = body as ErrorResponse
-//        } else {
-//            CommonResponse(
-//                requestDetails = requestDetails,
-//                status = 200,
-//                message = "success",
-//                data = body
-//            )
-//        }
     }
 }

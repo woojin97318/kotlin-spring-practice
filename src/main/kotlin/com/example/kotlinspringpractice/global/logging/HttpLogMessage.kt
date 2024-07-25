@@ -72,9 +72,10 @@ data class HttpLogMessage(
     }
 
     fun toPrettierLog(): String {
+        // |[REQUEST] ${this.httpMethod} ${this.requestUri} ${this.httpStatus} (${this.elapsedTime}s)
         return """
         |
-        |[REQUEST] ${this.httpMethod} ${this.requestUri} ${this.httpStatus} (${this.elapsedTime}s)
+        |[REQUEST] ${this.httpMethod} ${this.requestUri} (${this.elapsedTime}s)
         |>> CLIENT_IP: ${this.clientIp}
         |>> REQUEST_HEADERS: ${this.requestHeaders}
         |>> RESPONSE_HEADERS: ${this.requestHeaders}
